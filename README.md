@@ -67,5 +67,5 @@ ansible-playbook install_configure_chronyd.yml --extra-vars "ansible_sudo_pass=t
 ansible-playbook set_timezone.yml --extra-vars "ansible_sudo_pass=teste-ansible"
 
 # Para instalar e configurar um agente zabbix
-ansible-playbook install_configure_zabbix_agent.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+ansible-playbook install_config_zabbix.yml --extra-vars "ansible_sudo_pass=teste-ansible"
 
