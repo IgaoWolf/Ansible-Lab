@@ -57,3 +57,15 @@ ansible-playbook discos_info_clientes.yml
 # Para puxar as informações de um df -h de um host em especifico (ip ou name)
 
 ansible-playbook df_h_prompt.yml --extra-vars "target_host=192.168.3.102"
+
+# Para instalar e configurar o chronyd no grupo clientes
+
+ansible-playbook install_configure_chronyd.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+
+# Para setar no servidor o timezone America/Sao Paulo
+
+ansible-playbook set_timezone.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+
+# Para instalar e configurar um agente zabbix
+ansible-playbook install_configure_zabbix_agent.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+

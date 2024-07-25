@@ -1,0 +1,40 @@
+---
+- name: Instalar e configurar o agente do Zabbix
+  hosts: clientes
+  become: yes
+  tasks:
+    - name: Baixar o pacote do repositório do Zabbix
+      get_url:
+        url: https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_7.0-2+ubuntu24.04_all.deb
+        dest: /tmp/zabbix-release_7.0-2+ubuntu24.04_all.deb
+
+    - name: Instalar o pacote do repositório do Zabbix
+      apt:
+        deb: /tmp/zabbix-release_7.0-2+ubuntu24.04_all.deb
+        state: present
+
+    - name: Atualizar a lista de pacotes
+      apt:
+        update_cache: yes
+
+    - name: Instalar o agente do Zabbix
+      apt:
+        name: zabbix-agent
+        state: present
+
+    - name: Configurar o agente do Zabbix
+      lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        line: "{{ item }}"
+        regexp: "^{{ item.split('=')[0] }}="
+        create: yes
+      with_items:
+        - "Server=192.168.3.103"
+        - "ServerActive=192.168.3.103"
+        - "Hostname={{ ansible_hostname }}"
+
+    - name: Reiniciar o serviço do agente do Zabbix
+      service:
+        name: zabbix-agent
+        state: restarted
+        enabled: yes
