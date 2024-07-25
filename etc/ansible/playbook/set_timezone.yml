@@ -1,0 +1,8 @@
+---
+- name: Configurar fuso horário para São Paulo
+  hosts: clientes
+  become: yes
+  tasks:
+    - name: Definir o fuso horário para America/Sao_Paulo
+      timezone:
+        name: America/Sao_Paulo

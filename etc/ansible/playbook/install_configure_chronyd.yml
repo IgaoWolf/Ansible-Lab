@@ -1,0 +1,41 @@
+---
+- name: Instalar e configurar chronyd
+  hosts: clientes
+  become: yes
+  tasks:
+    - name: Instalar chrony
+      apt:
+        name: chrony
+        state: present
+      # Para sistemas baseados em Red Hat, use 'yum' ou 'dnf':
+      # yum:
+      #   name: chrony
+      #   state: present
+
+    - name: Configurar chronyd
+      lineinfile:
+        path: /etc/chrony/chrony.conf
+        line: "{{ item }}"
+        create: yes
+        state: present
+      with_items:
+        - "server 0.centos.pool.ntp.org iburst"
+        - "server 1.centos.pool.ntp.org iburst"
+        - "server 2.centos.pool.ntp.org iburst"
+        - "server 3.centos.pool.ntp.org iburst"
+        - "allow 192.168.0.0/16"  # Ajuste a sub-rede conforme necessário
+
+    - name: Reiniciar o serviço chronyd
+      service:
+        name: chronyd
+        state: restarted
+        enabled: yes
+
+    - name: Verificar o status do chronyd
+      command: chronyc tracking
+      register: chronyc_status
+      changed_when: false
+
+    - name: Mostrar status do chronyd
+      debug:
+        msg: "{{ chronyc_status.stdout }}"
