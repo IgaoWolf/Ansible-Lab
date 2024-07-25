@@ -1,0 +1,12 @@
+---
+- name: Coletar uso de disco do servidor específico
+  hosts: "{{ target_host }}"
+  gather_facts: no
+  tasks:
+    - name: Executar df -h
+      command: df -h
+      register: df_output
+
+    - name: Mostrar saída do df -h
+      debug:
+        msg: "{{ df_output.stdout }}"

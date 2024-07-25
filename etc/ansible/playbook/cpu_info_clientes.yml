@@ -1,0 +1,14 @@
+---
+- name: Coletar informações sobre CPU e processador nos clientes
+  hosts: clientes
+  gather_facts: yes
+  tasks:
+    - name: Mostrar informações sobre CPU e processador
+      debug:
+        msg:
+          - "Número de núcleos de CPU: {{ ansible_processor_cores }}"
+          - "Número de CPUs: {{ ansible_processor }}"
+          - "Modelo do processador: {{ ansible_processor[1] }}"
+          - "Arquitetura do processador: {{ ansible_architecture }}"
+          - "Número de CPUs (fisicamente): {{ ansible_processor_cores }}"
+          - "Velocidade do processador: {{ ansible_processor[1] }} GHz"

@@ -41,3 +41,19 @@ ansible-inventory --list
 
 # Para testar a conectividade com todo o inventario rode o seguinte comando 
 ansible all -m ping
+
+# Para utilizar o install_apps_client1, irá utilizar o grupo que está no host's
+
+ansible-playbook install_apps_cliente1.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+
+# Para puxar todos as informações dos CPU para o grupo clientes que está nos host's
+
+ansible-playbook cpu_info_clientes.yml
+
+# Para puxar todos as informações dos discos para o grupo clientes que está nos host's
+
+ansible-playbook discos_info_clientes.yml
+
+# Para puxar as informações de um df -h de um host em especifico (ip ou name)
+
+ansible-playbook df_h_prompt.yml --extra-vars "target_host=192.168.3.102"

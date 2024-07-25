@@ -1,0 +1,10 @@
+---
+- name: Coletar informações sobre discos
+  hosts: clientes
+  gather_facts: yes
+  tasks:
+    - name: Mostrar informações sobre discos
+      debug:
+        msg:
+          - "Discos e suas informações:"
+          - "{{ ansible_devices }}"
