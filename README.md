@@ -1,15 +1,35 @@
-# Ansible-Laboratorio
- 
-Neste laborátorio, estou utilizando uma máquina virtual para servir de Servidor Ansible.
+# Ansible Laboratório
 
-# Para instalação é muito simples, básicamente será necessário rodar os comandos abaixo:
+Neste laboratório, você utilizará uma máquina virtual como servidor Ansible para gerenciar e automatizar suas configurações.
 
+## 1. Atualizar o Sistema
+
+Primeiro, atualize os pacotes do sistema:
+
+```bash
 sudo apt update
 sudo apt upgrade
+```
+## 2. Instalar o Ansible
+
+Instale o Ansible:
+
+```bash
 
 sudo apt install ansible
+```
 
-# ansible --version
+Verifique a versão do Ansible instalada:
+
+```bash
+
+ansible --version
+```
+
+A saída esperada deve ser semelhante a:
+
+```bash
+
 ansible [core 2.16.3]
   config file = None
   configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
@@ -19,53 +39,110 @@ ansible [core 2.16.3]
   python version = 3.12.3 (main, Apr 10 2024, 05:33:47) [GCC 13.2.0] (/usr/bin/python3)
   jinja version = 3.1.2
   libyaml = True
+```
 
-# Em todos os servidores que serão gerenciados pelo Ansible, utilizará o seguinte usuário 
+## 3. Criar Usuário para Gerenciamento
+
+Crie um usuário que será utilizado para gerenciar os servidores:
+
+```bash
+
 sudo adduser ansible-user
+```
 
-# Fornecendo privilegios administrativos para o usuário
+Conceda privilégios administrativos ao usuário:
+
+```bash
+
 sudo usermod -aG sudo ansible-user
+```
 
-# Checar se o usuário foi criado corretamente
+Verifique se o usuário foi criado corretamente:
+
+```bash
+
 getent passwd ansible-user
+```
 
-##senha 
-teste-ansible
+Senha do usuário: teste-ansible
+## 4. Instalar sshpass
 
-# Será necessário instalar o sshpass
+Instale o sshpass, que pode ser necessário para automatizar a autenticação SSH:
+
+```bash
+
 apt-get update
 apt-get install sshpass
+```
 
-# Use o comando ansible-inventory para garantir que o inventário foi configurado corretamente:
+## 5. Verificar Inventário
+
+Use o comando ansible-inventory para garantir que o inventário foi configurado corretamente:
+
+```bash
+
 ansible-inventory --list
+```
 
-# Para testar a conectividade com todo o inventario rode o seguinte comando 
+## 6. Testar Conectividade
+
+Teste a conectividade com todos os hosts no inventário:
+
+```bash
+
 ansible all -m ping
+```
 
-# Para utilizar o install_apps_client1, irá utilizar o grupo que está no host's
+## 7. Executar Playbooks
+
+Execute os seguintes playbooks conforme necessário:
+
+    Instalar aplicativos no cliente 1:
+
+```bash
 
 ansible-playbook install_apps_cliente1.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+```
 
-# Para puxar todos as informações dos CPU para o grupo clientes que está nos host's
+Obter informações de CPU para o grupo clientes:
+
+```bash
 
 ansible-playbook cpu_info_clientes.yml
+```
 
-# Para puxar todos as informações dos discos para o grupo clientes que está nos host's
+Obter informações de discos para o grupo clientes:
+
+```bash
 
 ansible-playbook discos_info_clientes.yml
+```
 
-# Para puxar as informações de um df -h de um host em especifico (ip ou name)
+Obter informações de df -h de um host específico (IP ou nome):
+
+```bash
 
 ansible-playbook df_h_prompt.yml --extra-vars "target_host=192.168.3.102"
+```
 
-# Para instalar e configurar o chronyd no grupo clientes
+Instalar e configurar o chronyd no grupo clientes:
+
+```bash
 
 ansible-playbook install_configure_chronyd.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+```
 
-# Para setar no servidor o timezone America/Sao Paulo
+Definir o timezone no servidor para America/Sao_Paulo:
+
+```bash
 
 ansible-playbook set_timezone.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+```
 
-# Para instalar e configurar um agente zabbix
+Instalar e configurar um agente Zabbix:
+
+```bash
+
 ansible-playbook install_config_zabbix.yml --extra-vars "ansible_sudo_pass=teste-ansible"
+```
 
